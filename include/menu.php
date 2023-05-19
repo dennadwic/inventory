@@ -35,20 +35,20 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="?page=barang" class="nav-link">
+            <a href="?page=product" class="nav-link">
               <i class="nav-icon far fa-image"></i>
               <p>Data Barang</p>
             </a>
           </li>
           <li class="nav-header">Transaksi</li>
           <li class="nav-item">
-            <a href="iframe.html" class="nav-link">
+            <a href="?page=barangmasuk" class="nav-link">
               <i class="nav-icon fas fa-ellipsis-h"></i>
               <p>Data Barang Masuk</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="https://adminlte.io/docs/3.1/" class="nav-link">
+            <a href="?page=barangkeluar" class="nav-link">
               <i class="nav-icon fas fa-file"></i>
               <p>Data Barang Keluar</p>
             </a>

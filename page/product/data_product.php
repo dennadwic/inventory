@@ -3,12 +3,12 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Manage Vendor</h1>
+        <h1>Manage Product</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-          <li class="breadcrumb-item active">Vendor</li>
+          <li class="breadcrumb-item active">Product</li>
         </ol>
       </div>
     </div>
@@ -53,43 +53,36 @@
                       <div class="row">
                         <div class="col-md-6">
                           <div class="form-group form-group-default">
-                            <label>ID Vendor</label>
+                            <label>ID Product</label>
                             <input type="text" name="id_vendor" value="<?php echo $id_vendor?>" class="form-control"
                               readonly>
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group form-group-default">
-                            <label>Nama Vendor</label>
+                            <label>Nama Product</label>
                             <input type="text" class="form-control" placeholder="Masukkan Nama Vendor"
                               name="nama_vendor">
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group form-group-default">
-                            <label>Telepon</label>
+                            <label>Category</label>
                             <input type="text" class="form-control" placeholder="Masukkan Nomor Telepon"
                               name="telepon_vendor" onkeypress="return hanyaAngka(event)">
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group form-group-default">
-                            <label>Contact Person</label>
+                            <label>Inventory Uom</label>
                             <input type="text" class="form-control" placeholder="Masukkan Contact Person"
                               name="cperson_vendor">
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group form-group-default">
-                            <label>Email</label>
+                            <label>Stock</label>
                             <input type="text" class="form-control" placeholder="Masukkan Email" name="email_vendor">
-                          </div>
-                        </div>
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <label>Alamat</label>
-                            <textarea class="form-control" rows="3" placeholder="Masukkan Alamat Vendor"
-                              name="alamat_vendor"></textarea>
                           </div>
                         </div>
                       </div>
@@ -108,24 +101,22 @@
                 <thead>
                   <tr>
                     <th>No</th>
-                    <th>ID Vendor</th>
-                    <th>Nama Vendor</th>
-                    <th>Telepon</th>
-                    <th>Contact Person</th>
-                    <th>Email</th>
-                    <th>Alamat</th>
+                    <th>ID Product</th>
+                    <th>Nama Product</th>
+                    <th>Category</th>
+                    <th>Inventory Uom</th>
+                    <th>Stock</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>1</td>
-                    <td>V001</td>
-                    <td>Refresh Kompute</td>
-                    <td>123456789</td>
-                    <td>Denna</td>
-                    <td>denna@gmail.com</td>
-                    <td>Petukangan Utara</td>
+                    <td>PR001</td>
+                    <td>Mouse</td>
+                    <td>Hardware</td>
+                    <td>Unit</td>
+                    <td>5</td>
                     <td>
                       <a href="?page=vendor&aksi=edit&id_vendor=<?php echo $row['id_vendor']?>" class="btn btn-success btn-flat" ><i class="fas fa-edit"></i></a>
                       <a onclick="return confirm('Apakah Anda Yakin Menghapus Data Ini ?')" href="?page=vendor&aksi=delete&id_vendor=<?php echo $row['id_vendor']?>" class="btn btn-danger btn-flat"><i class="fa fa-trash"></i></a>
@@ -133,12 +124,11 @@
                   </tr>
                   <tr>
                     <td>1</td>
-                    <td>V001</td>
-                    <td>Refresh Kompute</td>
-                    <td>123456789</td>
-                    <td>Denna</td>
-                    <td>denna@gmail.com</td>
-                    <td>Petukangan Utara</td>
+                    <td>PR002</td>
+                    <td>Keyboard</td>
+                    <td>Hardware</td>
+                    <td>Unit</td>
+                    <td>4</td>
                     <td>
                       <a href="?page=vendor&aksi=edit&id_vendor=<?php echo $row['id_vendor']?>" class="btn btn-success btn-flat" ><i class="fas fa-edit"></i></a>
                       <a onclick="return confirm('Apakah Anda Yakin Menghapus Data Ini ?')" href="?page=vendor&aksi=delete&id_vendor=<?php echo $row['id_vendor']?>" class="btn btn-danger btn-flat"><i class="fa fa-trash"></i></a>

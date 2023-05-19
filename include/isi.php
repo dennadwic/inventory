@@ -8,9 +8,21 @@
         }
     }
 
-    if($page == "barang") {
+    if($page == "product") {
         if($aksi == "") {
-            include "page/barang/data_barang.php";
+            include "page/product/data_product.php";
+        }
+    }
+
+    if($page == "barangmasuk") {
+        if($aksi == "") {
+            include "page/barangmasuk/data_barangmasuk.php";
+        }
+    }
+
+    if($page == "barangkeluar") {
+        if($aksi == "") {
+            include "page/barangkeluar/data_barangkeluar.php";
         }
     }
 
