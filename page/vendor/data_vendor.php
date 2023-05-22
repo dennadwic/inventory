@@ -48,6 +48,17 @@
                   </div>
 
                   <div class="modal-body">
+                    <?php
+                    error_reporting(0);
+                      include "koneksi.php";
+                      $auto = mysqli_query($koneksi, "SELECT max(id_vendor) AS max_code FROM tb_vendor");
+                      $row = mysqli_fetch_array($auto);
+                      $code = $row['max_code'];
+                      $urutan = (int) substr($code, 2, 3);
+                      $urutan++;
+                      $huruf = "V";
+                      $id_vendor = $huruf.sprintf("%03s", $urutan);
+                    ?>
                     <!-- Start Form Input User -->
                     <form method="post" name="proses" role="form">
                       <div class="row">
@@ -102,6 +113,29 @@
                 </div>
               </div>
             </div>
+            <?php
+              if(isset($_POST['simpan'])) {
+                $id_vendor = $_POST['id_vendor'];
+                $nama_vendor = $_POST['nama_vendor'];
+                $telepon_vendor = $_POST['telepon_vendor'];
+                $cperson_vendor = $_POST['cperson_vendor'];
+                $email_vendor = $_POST['email_vendor'];
+                $alamat_vendor = $_POST['alamat_vendor'];
+
+                $sql = $koneksi->query("INSERT INTO tb_vendor (id_vendor, nama_vendor,  telepon_vendor, cperson_vendor, email_vendor, alamat_vendor)VALUES('$id_vendor','$nama_vendor','$telepon_vendor','$cperson_vendor','$email_vendor','$alamat_vendor')");
+
+                if($sql){
+            ?>
+
+            <script type="text/javascript">
+              alert ("Data Berhasil Disimpan");
+              window.location.href="?page=vendor";
+            </script>
+            
+            <?php
+                }
+              }
+            ?>
 
             <div class="table-responsive">
               <table id="example2" class="table table-bordered table-hover">
@@ -118,32 +152,28 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <?php 
+                    $no = 1;
+                    $query = "SELECT * FROM tb_vendor";
+                    $sql_user = mysqli_query($koneksi, $query) or die (mysqli_error($koneksi));
+                    while($row = mysqli_fetch_array($sql_user)) {
+                  ?>
                   <tr>
-                    <td>1</td>
-                    <td>V001</td>
-                    <td>Refresh Kompute</td>
-                    <td>123456789</td>
-                    <td>Denna</td>
-                    <td>denna@gmail.com</td>
-                    <td>Petukangan Utara</td>
+                    <td><?php echo $no++;?></td>
+                    <td><?php echo $row['id_vendor'];?></td>
+                    <td><?php echo $row['nama_vendor'];?></td>
+                    <td><?php echo $row['telepon_vendor'];?></td>
+                    <td><?php echo $row['cperson_vendor'];?></td>
+                    <td><?php echo $row['email_vendor'];?></td>
+                    <td><?php echo $row['alamat_vendor'];?></td>
                     <td>
                       <a href="?page=vendor&aksi=edit&id_vendor=<?php echo $row['id_vendor']?>" class="btn btn-success btn-flat" ><i class="fas fa-edit"></i></a>
                       <a onclick="return confirm('Apakah Anda Yakin Menghapus Data Ini ?')" href="?page=vendor&aksi=delete&id_vendor=<?php echo $row['id_vendor']?>" class="btn btn-danger btn-flat"><i class="fa fa-trash"></i></a>
                     </td>
                   </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>V001</td>
-                    <td>Refresh Kompute</td>
-                    <td>123456789</td>
-                    <td>Denna</td>
-                    <td>denna@gmail.com</td>
-                    <td>Petukangan Utara</td>
-                    <td>
-                      <a href="?page=vendor&aksi=edit&id_vendor=<?php echo $row['id_vendor']?>" class="btn btn-success btn-flat" ><i class="fas fa-edit"></i></a>
-                      <a onclick="return confirm('Apakah Anda Yakin Menghapus Data Ini ?')" href="?page=vendor&aksi=delete&id_vendor=<?php echo $row['id_vendor']?>" class="btn btn-danger btn-flat"><i class="fa fa-trash"></i></a>
-                    </td>
-                  </tr>
+                  <?php
+                    }
+                  ?>
                 </tbody>
               </table>
             </div>

@@ -1,6 +1,8 @@
 <?php
   error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
   session_start();
+
+  include "include/koneksi.php";
 ?>
 
 <!DOCTYPE html>
@@ -255,5 +257,14 @@
     });
   });
 </script>
+<script>
+		function hanyaAngka(evt) {
+		  var charCode = (evt.which) ? evt.which : event.keyCode
+		   if (charCode > 31 && (charCode < 48 || charCode > 57))
+ 
+		    return false;
+		  return true;
+		}
+	</script>
 </body>
 </html>

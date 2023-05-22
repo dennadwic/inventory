@@ -48,41 +48,65 @@
                   </div>
 
                   <div class="modal-body">
+                  <?php
+                  error_reporting(0);
+                  include "koneksi.php";
+                    $auto = mysqli_query($koneksi, "SELECT max(id_product) AS max_code FROM tb_product");
+                    $row = mysqli_fetch_array($auto);
+                    $code = $row['max_code'];
+                    $urutan = (int) substr($code, 2,3);
+                    $urutan++;
+                    $huruf = "PR";
+                    $id_product = $huruf.sprintf("%03s", $urutan);
+                  ?>
                     <!-- Start Form Input User -->
                     <form method="post" name="proses" role="form">
                       <div class="row">
                         <div class="col-md-6">
                           <div class="form-group form-group-default">
                             <label>ID Product</label>
-                            <input type="text" name="id_vendor" value="<?php echo $id_vendor?>" class="form-control"
+                            <input type="text" name="id_product" value="<?php echo $id_product?>" class="form-control"
                               readonly>
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group form-group-default">
                             <label>Nama Product</label>
-                            <input type="text" class="form-control" placeholder="Masukkan Nama Vendor"
-                              name="nama_vendor">
+                            <input type="text" class="form-control" placeholder="Masukkan Nama Product" name="nama_product">
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group form-group-default">
                             <label>Category</label>
-                            <input type="text" class="form-control" placeholder="Masukkan Nomor Telepon"
-                              name="telepon_vendor" onkeypress="return hanyaAngka(event)">
+                            <select class="form-control" name="id_category">
+                            <option value="">--Pilih--</option>
+                            <?php
+                                $sql_jenis = mysqli_query($koneksi, "SELECT * FROM tb_category") or die (mysqli_error($koneksi));
+                                while($data_jenis = mysqli_fetch_array($sql_jenis)) {
+                                  echo '<option value="'.$data_jenis['id_category'].'">'.$data_jenis['nama_category'].'</option>';
+                                }
+                              ?>
+                            </select>
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group form-group-default">
                             <label>Inventory Uom</label>
-                            <input type="text" class="form-control" placeholder="Masukkan Contact Person"
-                              name="cperson_vendor">
+                            <select class="form-control" name="id_satuan">
+                            <option value="">--Pilih--</option>
+                              <?php
+                                $sql_satuan = mysqli_query($koneksi, "SELECT * FROM tb_satuan") or die (mysqli_error($koneksi));
+                                while($data_satuan = mysqli_fetch_array($sql_satuan)) {
+                                  echo '<option value="'.$data_satuan['id_satuan'].'">'.$data_satuan['nama_satuan'].'</option>';
+                                }
+                              ?>
+                            </select>
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group form-group-default">
                             <label>Stock</label>
-                            <input type="text" class="form-control" placeholder="Masukkan Email" name="email_vendor">
+                            <input type="text" class="form-control" placeholder="Masukkan Stock" name="stock" onkeypress="return hanyaAngka(event)">
                           </div>
                         </div>
                       </div>
@@ -95,6 +119,28 @@
                 </div>
               </div>
             </div>
+            <?php
+              if(isset($_POST['simpan'])) {
+                $id_product = $_POST['id_product'];
+                $nama_product = $_POST['nama_product'];
+                $id_category = $_POST['id_category'];
+                $id_satuan = $_POST['id_satuan'];
+                $stock = $_POST['stock'];
+
+                $sql = $koneksi->query("INSERT INTO tb_product (id_product, nama_product, id_category, id_satuan, stock)VALUES('$id_product','$nama_product','$id_category','$id_satuan','$stock')");
+
+                if($sql){
+            ?>
+
+            <script type="text/javascript">
+              alert ("Data Berhasil Disimpan");
+              window.location.href="?page=product";
+            </script>
+            
+            <?php
+                }
+              }
+            ?>
 
             <div class="table-responsive">
               <table id="example2" class="table table-bordered table-hover">
@@ -110,30 +156,29 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <?php 
+                    $no = 1;
+                    $query = "SELECT * FROM tb_product
+                      INNER JOIN tb_category ON tb_product.id_category = tb_category.id_category
+                      INNER JOIN tb_satuan ON tb_product.id_satuan = tb_satuan.id_satuan";
+                    $sql_product = mysqli_query($koneksi, $query) or die (mysqli_error($koneksi));
+                    while($row = mysqli_fetch_array($sql_product)) {
+                  ?>
                   <tr>
-                    <td>1</td>
-                    <td>PR001</td>
-                    <td>Mouse</td>
-                    <td>Hardware</td>
-                    <td>Unit</td>
-                    <td>5</td>
+                    <td><?php echo $no++;?></td>
+                    <td><?php echo $row['id_product'];?></td>
+                    <td><?php echo $row['nama_product'];?></td>
+                    <td><?php echo $row['nama_category'];?></td>
+                    <td><?php echo $row['nama_satuan'];?></td>
+                    <td><?php echo $row['stock'];?></td>
                     <td>
-                      <a href="?page=vendor&aksi=edit&id_vendor=<?php echo $row['id_vendor']?>" class="btn btn-success btn-flat" ><i class="fas fa-edit"></i></a>
-                      <a onclick="return confirm('Apakah Anda Yakin Menghapus Data Ini ?')" href="?page=vendor&aksi=delete&id_vendor=<?php echo $row['id_vendor']?>" class="btn btn-danger btn-flat"><i class="fa fa-trash"></i></a>
+                      <a href="?page=product&aksi=edit&id_product=<?php echo $row['id_product']?>" class="btn btn-success btn-flat" ><i class="fas fa-edit"></i></a>
+                      <a onclick="return confirm('Apakah Anda Yakin Menghapus Data Ini ?')" href="?page=product&aksi=delete&id_product=<?php echo $row['id_product']?>" class="btn btn-danger btn-flat"><i class="fa fa-trash"></i></a>
                     </td>
                   </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>PR002</td>
-                    <td>Keyboard</td>
-                    <td>Hardware</td>
-                    <td>Unit</td>
-                    <td>4</td>
-                    <td>
-                      <a href="?page=vendor&aksi=edit&id_vendor=<?php echo $row['id_vendor']?>" class="btn btn-success btn-flat" ><i class="fas fa-edit"></i></a>
-                      <a onclick="return confirm('Apakah Anda Yakin Menghapus Data Ini ?')" href="?page=vendor&aksi=delete&id_vendor=<?php echo $row['id_vendor']?>" class="btn btn-danger btn-flat"><i class="fa fa-trash"></i></a>
-                    </td>
-                  </tr>
+                  <?php
+                    }
+                  ?>
                 </tbody>
               </table>
             </div>

@@ -29,7 +29,7 @@
           </li>
           <li class="nav-header">Data Master</li>
           <li class="nav-item">
-            <a href="?page=supplier" class="nav-link">
+            <a href="?page=vendor" class="nav-link">
               <i class="nav-icon far fa-calendar-alt"></i>
               <p>Supplier</p>
             </a>

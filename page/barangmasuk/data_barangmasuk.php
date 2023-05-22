@@ -48,41 +48,65 @@
                   </div>
 
                   <div class="modal-body">
+                  <?php
+                  error_reporting(0);
+                  include "koneksi.php";
+                    $auto = mysqli_query($koneksi, "SELECT max(id_brgmasuk) AS max_code FROM tb_brgmasuk");
+                    $row = mysqli_fetch_array($auto);
+                    $code = $row['max_code'];
+                    $urutan = (int) substr($code, 6,3);
+                    $urutan++;
+                    $huruf = "T-BM-";
+                    $id_brgmasuk = $huruf.sprintf("%03s", $urutan);                    
+                  ?>
                     <!-- Start Form Input User -->
                     <form method="post" name="proses" role="form">
                       <div class="row">
                         <div class="col-md-6">
                           <div class="form-group form-group-default">
                             <label>No Transaksi</label>
-                            <input type="text" name="id_vendor" value="<?php echo $id_vendor?>" class="form-control"
+                            <input type="text" name="id_brgmasuk" value="<?php echo $id_brgmasuk?>" class="form-control"
                               readonly>
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group form-group-default">
                             <label>Tanggal Masuk</label>
-                            <input type="text" class="form-control" placeholder="Masukkan Nama Vendor"
-                              name="nama_vendor">
+                            <input type="date" class="form-control" name="tglmasuk">
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group form-group-default">
                             <label>Supplier</label>
-                            <input type="text" class="form-control" placeholder="Masukkan Nomor Telepon"
-                              name="telepon_vendor" onkeypress="return hanyaAngka(event)">
+                            <select class="form-control" name="id_vendor">
+                            <option value="">--Pilih--</option>
+                            <?php
+                                $sql_product = mysqli_query($koneksi, "SELECT * FROM tb_vendor") or die (mysqli_error($koneksi));
+                                while($data_product = mysqli_fetch_array($sql_product)) {
+                                  echo '<option value="'.$data_product['id_vendor'].'">'.$data_product['nama_vendor'].'</option>';
+                                }
+                              ?>
+                            </select>
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group form-group-default">
                             <label>Nama Barang</label>
-                            <input type="text" class="form-control" placeholder="Masukkan Contact Person"
-                              name="cperson_vendor">
+                            <select class="form-control" name="id_product">
+                            <option value="">--Pilih--</option>
+                            <?php
+                                $sql_product = mysqli_query($koneksi, "SELECT * FROM tb_product") or die (mysqli_error($koneksi));
+                                while($data_product = mysqli_fetch_array($sql_product)) {
+                                  echo '<option value="'.$data_product['id_product'].'">'.$data_product['nama_product'].'</option>';
+                                }
+                              ?>
+                            </select>
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group form-group-default">
                             <label>Jumlah Barang Masuk</label>
-                            <input type="text" class="form-control" placeholder="Masukkan Email" name="email_vendor">
+                            <input type="text" class="form-control" placeholder="Masukkan Jumlah Barang Masuk" name="jumlahbrgmsk">
                           </div>
                         </div>
                       </div>
@@ -95,6 +119,35 @@
                 </div>
               </div>
             </div>
+            <?php
+              if(isset($_POST['simpan'])) {
+                $id_brgmasuk  = $_POST['id_brgmasuk'];
+                $tglmasuk     = $_POST['tglmasuk'];
+                $id_vendor    = $_POST['id_vendor'];
+                $id_product   = $_POST['id_product'];
+                $jumlahbrgmsk = $_POST['jumlahbrgmsk'];
+
+                $cekstock = mysqli_query($koneksi, "select * from tb_product where id_product='$id_product'");
+                $ambildata = mysqli_fetch_array($cekstock);
+
+                $stocksekarang = $ambildata['stock'];
+                $tambahstock = $stocksekarang+$jumlahbrgmsk;
+
+                $sql = $koneksi->query("INSERT INTO tb_brgmasuk (id_brgmasuk, tglmasuk, id_vendor, id_product, jumlahbrgmsk)VALUES('$id_brgmasuk','$tglmasuk','$id_vendor','$id_product','$jumlahbrgmsk')");
+                $updatestockmasuk = mysqli_query($koneksi, "update tb_product set stock='$tambahstock' where id_product='$id_product'");
+
+                if($sql){
+            ?>
+
+            <script type="text/javascript">
+              alert ("Data Berhasil Disimpan");
+              window.location.href="?page=barangmasuk";
+            </script>
+            
+            <?php
+                }
+              }
+            ?>
 
             <div class="table-responsive">
               <table id="example2" class="table table-bordered table-hover">
@@ -110,30 +163,28 @@
                   </tr>
                 </thead>
                 <tbody>
+                <?php 
+                    $no = 1;
+                    $query = "SELECT * FROM tb_brgmasuk
+                      INNER JOIN tb_vendor ON tb_brgmasuk.id_vendor = tb_vendor.id_vendor
+                      INNER JOIN tb_product ON tb_brgmasuk.id_product = tb_product.id_product";
+                    $sql_product = mysqli_query($koneksi, $query) or die (mysqli_error($koneksi));
+                    while($row = mysqli_fetch_array($sql_product)) {
+                  ?>
                   <tr>
-                    <td>1</td>
-                    <td>T-BM-001</td>
-                    <td>19 Mei 2023</td>
-                    <td>Refresh Komputer</td>
-                    <td>Mouse</td>
-                    <td>5</td>
+                    <td><?php echo $no++;?></td>
+                    <td><?php echo $row['id_brgmasuk'];?></td>
+                    <td><?php echo $row['tglmasuk'];?></td>
+                    <td><?php echo $row['nama_vendor'];?></td>
+                    <td><?php echo $row['nama_product'];?></td>
+                    <td><?php echo $row['jumlahbrgmsk'];?></td>
                     <td>
-                      <a href="?page=vendor&aksi=edit&id_vendor=<?php echo $row['id_vendor']?>" class="btn btn-success btn-flat" ><i class="fas fa-edit"></i></a>
-                      <a onclick="return confirm('Apakah Anda Yakin Menghapus Data Ini ?')" href="?page=vendor&aksi=delete&id_vendor=<?php echo $row['id_vendor']?>" class="btn btn-danger btn-flat"><i class="fa fa-trash"></i></a>
+                      <a onclick="return confirm('Apakah Anda Yakin Menghapus Data Ini ?')" href="?page=product&aksi=delete&id_product=<?php echo $row['id_product']?>" class="btn btn-danger btn-flat"><i class="fa fa-trash"></i></a>
                     </td>
                   </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>T-BM-002</td>
-                    <td>19 Mei 2023</td>
-                    <td>Refresh Komputer</td>
-                    <td>Keyboard</td>
-                    <td>10</td>
-                    <td>
-                      <a href="?page=vendor&aksi=edit&id_vendor=<?php echo $row['id_vendor']?>" class="btn btn-success btn-flat" ><i class="fas fa-edit"></i></a>
-                      <a onclick="return confirm('Apakah Anda Yakin Menghapus Data Ini ?')" href="?page=vendor&aksi=delete&id_vendor=<?php echo $row['id_vendor']?>" class="btn btn-danger btn-flat"><i class="fa fa-trash"></i></a>
-                    </td>
-                  </tr>
+                  <?php
+                    }
+                  ?>
                 </tbody>
               </table>
             </div>
