@@ -258,13 +258,23 @@
   });
 </script>
 <script>
-		function hanyaAngka(evt) {
-		  var charCode = (evt.which) ? evt.which : event.keyCode
-		   if (charCode > 31 && (charCode < 48 || charCode > 57))
+	function hanyaAngka(evt) {
+	  var charCode = (evt.which) ? evt.which : event.keyCode
+		  if (charCode > 31 && (charCode < 48 || charCode > 57))
  
-		    return false;
-		  return true;
-		}
-	</script>
+		  return false;
+	  return true;
+	}
+</script>
+<script>
+  $(document).ready(function() {
+    $('#dataTable3').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+           'copy', 'csv', 'excel', 'pdf', 'print',
+        ]
+    } );
+} );
+</script>
 </body>
 </html>

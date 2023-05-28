@@ -30,11 +30,20 @@
         if($aksi == "") {
             include "page/barangmasuk/data_barangmasuk.php";
         }
+        if($aksi == "delete") {
+            include "page/barangmasuk/delete.php";
+        }
     }
 
     if($page == "barangkeluar") {
         if($aksi == "") {
             include "page/barangkeluar/data_barangkeluar.php";
+        }
+        if($aksi == "export") {
+            include "page/barangkeluar/exportbrgklr.php";
+        }
+        if($aksi == "print") {
+            include "page/barangkeluar/print.php";
         }
     }
 

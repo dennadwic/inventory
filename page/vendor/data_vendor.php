@@ -122,7 +122,7 @@
                 $email_vendor = $_POST['email_vendor'];
                 $alamat_vendor = $_POST['alamat_vendor'];
 
-                $sql = $koneksi->query("INSERT INTO tb_vendor (id_vendor, nama_vendor,  telepon_vendor, cperson_vendor, email_vendor, alamat_vendor)VALUES('$id_vendor','$nama_vendor','$telepon_vendor','$cperson_vendor','$email_vendor','$alamat_vendor')");
+                $sql = $koneksi->query("INSERT INTO tb_vendor (id_vendor, nama_vendor, telepon_vendor, cperson_vendor, email_vendor, alamat_vendor)VALUES('$id_vendor','$nama_vendor','$telepon_vendor','$cperson_vendor','$email_vendor','$alamat_vendor')");
 
                 if($sql){
             ?>

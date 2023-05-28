@@ -22,10 +22,13 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
+            <div class="d-sm-flex justify-content-between align-items-center">
             <button class="btn btn-primary btn-round mr-auto" data-toggle="modal" data-target="#addRowModal">
               <i class="fa fa-plus"></i>
               Add Data
             </button>
+              <a href="?page=barangkeluar&aksi=export&exportbrgklr" target="_blank" class="btn btn-info">Export Data</a>
+            </div>
           </div>
 
           <div class="card-body">
@@ -49,7 +52,7 @@
 
                   <div class="modal-body">
                   <?php
-                  #error_reporting(0);
+                  error_reporting(0);
                   include "koneksi.php";
                     $auto = mysqli_query($koneksi, "SELECT max(id_brgkeluar) AS max_code FROM tb_brgkeluar");
                     $row = mysqli_fetch_array($auto);
@@ -151,7 +154,6 @@
                     <th>Nama Penerima</th>
                     <th>Nama Barang</th>
                     <th>Jumlah Barang Keluar</th>
-                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -169,9 +171,6 @@
                     <td><?php echo $row['nama_penerima'];?></td>
                     <td><?php echo $row['nama_product'];?></td>
                     <td><?php echo $row['jumlahbrgklr'];?></td>
-                    <td>
-                      <a onclick="return confirm('Apakah Anda Yakin Menghapus Data Ini ?')" href="?page=product&aksi=delete&id_product=<?php echo $row['id_product']?>" class="btn btn-danger btn-flat"><i class="fa fa-trash"></i></a>
-                    </td>
                   </tr>
                   <?php
                     }

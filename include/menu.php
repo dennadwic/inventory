@@ -53,23 +53,9 @@
               <p>Data Barang Keluar</p>
             </a>
           </li>
-          <li class="nav-header">Laporan</li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="fas fa-circle nav-icon"></i>
-              <p>Cetak Laporan</p>
-            </a>
-          </li>
-          <li class="nav-header">Setting</li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-circle text-danger"></i>
-              <p class="text">Cata Pengguna Sistem</p>
-            </a>
-          </li>
           <li class="nav-header">Log Out</li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="index.php" class="nav-link">
               <i class="nav-icon far fa-circle text-danger"></i>
               <p class="text">Logout</p>
             </a>
