@@ -6,7 +6,7 @@ pipeline {
         sshagent(credentials : ['webserver-inventory']) {
             sh 'ssh -o StrictHostKeyChecking=no bhewe@10.10.10.11 uptime'
             sh 'ssh -v bhewe@10.10.10.11'
-            sh 'scp inventory bhewe@10.10.10.11:/home/bhewe'
+            sh 'scp /var/lib/jenkins/workspace/inventory bhewe@10.10.10.11:/home/bhewe'
         }
       }
     }
