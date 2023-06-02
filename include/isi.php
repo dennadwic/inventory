@@ -47,6 +47,12 @@
         }
     }
 
+    if ($page == "kontak") {
+        if ($aksi == "") {
+            include "page/kontak/contacts.php";
+        }
+    }
+
     if($page == "") {
         include "home.php";
     }
