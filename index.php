@@ -2,6 +2,10 @@
   error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
   session_start();
 
+  if (!isset($_SESSION['id_user'])){
+    header("Location: login.php");
+  }
+
   include "include/koneksi.php";
 ?>
 

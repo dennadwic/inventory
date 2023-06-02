@@ -55,7 +55,7 @@
           </li>
           <li class="nav-header">Log Out</li>
           <li class="nav-item">
-            <a href="index.php" class="nav-link">
+            <a href="login.php" class="nav-link">
               <i class="nav-icon far fa-circle text-danger"></i>
               <p class="text">Logout</p>
             </a>
